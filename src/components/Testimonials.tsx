@@ -118,23 +118,26 @@ const Testimonials = () => {
 
         {/* Overall Rating Section */}
         <div className="text-center">
-          <div className="inline-flex items-center space-x-6 bg-surface px-10 py-6 rounded-2xl shadow-xl border border-gray-100">
-            <div className="flex items-center space-x-2">
+          <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6 bg-surface px-4 md:px-10 py-4 md:py-6 rounded-2xl shadow-xl border border-gray-100 w-full max-w-2xl mx-auto">
+            <div className="flex items-center space-x-1 md:space-x-2">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-7 h-7 text-secondary fill-current" />
+                <Star key={i} className="w-5 h-5 md:w-7 md:h-7 text-secondary fill-current" />
               ))}
             </div>
-            <div className="border-l border-gray-200 pl-6">
-              <div className="text-4xl font-raleway font-bold text-primary">4.9</div>
-              <div className="text-text-secondary font-poppins text-sm">Average Rating</div>
+            <div className="hidden md:block border-l border-gray-200 h-10 mx-2"></div>
+            <div className="flex flex-col items-center md:items-start md:pl-6">
+              <div className="text-2xl md:text-4xl font-raleway font-bold text-primary">4.9</div>
+              <div className="text-text-secondary font-poppins text-xs md:text-sm">Average Rating</div>
             </div>
-            <div className="border-l border-gray-200 pl-6">
-              <div className="text-4xl font-raleway font-bold text-primary">127</div>
-              <div className="text-text-secondary font-poppins text-sm">Happy Guests</div>
+            <div className="hidden md:block border-l border-gray-200 h-10 mx-2"></div>
+            <div className="flex flex-col items-center md:items-start md:pl-6">
+              <div className="text-2xl md:text-4xl font-raleway font-bold text-primary">127</div>
+              <div className="text-text-secondary font-poppins text-xs md:text-sm">Happy Guests</div>
             </div>
-            <div className="border-l border-gray-200 pl-6">
-              <div className="text-4xl font-raleway font-bold text-primary">100%</div>
-              <div className="text-text-secondary font-poppins text-sm">Satisfaction</div>
+            <div className="hidden md:block border-l border-gray-200 h-10 mx-2"></div>
+            <div className="flex flex-col items-center md:items-start md:pl-6">
+              <div className="text-2xl md:text-4xl font-raleway font-bold text-primary">100%</div>
+              <div className="text-text-secondary font-poppins text-xs md:text-sm">Satisfaction</div>
             </div>
           </div>
         </div>

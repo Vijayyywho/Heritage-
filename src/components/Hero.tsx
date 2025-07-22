@@ -5,18 +5,18 @@ const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
+    // {
+    //   image: 'https://temple.yatradham.org/public/Product/temple/temple_8t3hYPtJ_202410161435320.jpg',
+    //   title: 'City Palace Heritage',
+    //   subtitle: 'Explore Royal Grandeur'
+    // },
+    // {
+    //   image: 'https://s7ap1.scene7.com/is/image/incredibleindia/jag-mandir-palace-udaipur-rajasthan-trip-hero?qlt=82&ts=1727166370692',
+    //   title: 'Lake Pichola Serenity',
+    //   subtitle: 'Romantic Lakeside Journeys'
+    // },
     {
-      image: 'https://images.pexels.com/photos/3581368/pexels-photo-3581368.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop',
-      title: 'City Palace Heritage',
-      subtitle: 'Explore Royal Grandeur'
-    },
-    {
-      image: 'https://images.pexels.com/photos/962464/pexels-photo-962464.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop',
-      title: 'Lake Pichola Serenity',
-      subtitle: 'Romantic Lakeside Journeys'
-    },
-    {
-      image: 'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop',
+      image: 'https://images.pexels.com/photos/17547457/pexels-photo-17547457.jpeg',
       title: 'Monsoon Palace Views',
       subtitle: 'Panoramic Hill Experiences'
     }
@@ -93,7 +93,7 @@ const Hero = () => {
       <div className="absolute top-1/3 right-20 w-12 h-12 border-2 border-secondary opacity-30 transform rotate-45"></div>
       
       {/* Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto animate-fade-in">
+      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl pt-20 mx-auto animate-fade-in">
         <div className="mb-6">
           <span className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white font-poppins font-medium text-sm shadow-lg border border-white/20">
             <MapPin className="w-4 h-4 mr-2" />

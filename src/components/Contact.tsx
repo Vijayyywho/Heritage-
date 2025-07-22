@@ -27,27 +27,27 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      primary: '+91 98765 43210',
+      primary: '+91 96601 03534',
       secondary: 'Available 24/7 for bookings',
-      action: 'tel:+919876543210',
+      action: 'tel:+919660103534',
       actionText: 'Call Now',
       color: 'bg-blue-100 text-blue-600'
     },
     {
       icon: MessageCircle,
       title: 'WhatsApp',
-      primary: '+91 98765 43210',
+      primary: '+91 96601 03534',
       secondary: 'Instant booking & support',
-      action: 'https://wa.me/919876543210',
+      action: 'https://wa.me/919660103534',
       actionText: 'Start Chat',
       color: 'bg-green-100 text-green-600'
     },
     {
       icon: Mail,
       title: 'Email',
-      primary: 'info@heritagerides.com',
+      primary: 'heritagerides@gmail.com',
       secondary: 'Response within 2 hours',
-      action: 'mailto:info@heritagerides.com',
+      action: 'mailto:heritagerides@gmail.com',
       actionText: 'Send Email',
       color: 'bg-amber-100 text-amber-600'
     }
@@ -161,7 +161,7 @@ const Contact = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     className="w-full p-3 sm:p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all duration-300 font-poppins text-sm sm:text-base"
-                    placeholder="+91 98765 43210"
+                    placeholder="+91 96601 03534"
                   />
                 </div>
 
@@ -196,14 +196,14 @@ const Contact = () => {
                 <h4 className="font-raleway font-bold text-primary mb-3 sm:mb-4 text-sm sm:text-base">Need Immediate Assistance?</h4>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
-                    href="tel:+919876543210"
+                    href="tel:+919660103534"
                     className="flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all duration-300 font-poppins font-medium text-sm sm:text-base"
                   >
                     <Phone className="w-4 h-4" />
                     <span>Call Now</span>
                   </a>
                   <a
-                    href="https://wa.me/919876543210"
+                    href="https://wa.me/919660103534"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-300 font-poppins font-medium text-sm sm:text-base"

@@ -64,16 +64,16 @@ const Header = () => {
           {/* Contact Info & CTA */}
           <div className="hidden md:flex items-center space-x-4">
             <a
-              href="tel:+919876543210"
+              href="tel:+919660103534"
               className={`flex items-center space-x-2 transition-colors duration-300 ${
                 isScrolled ? 'text-primary hover:text-secondary' : 'text-white hover:text-secondary'
               }`}
             >
               <Phone className="w-4 h-4" />
-              <span className="text-sm font-poppins font-medium">+91 98765 43210</span>
+              <span className="text-sm font-poppins font-medium">+91 96601 03534</span>
             </a>
             <a
-              href="https://wa.me/919876543210"
+              href="https://wa.me/919660103534"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary flex items-center space-x-2 text-sm"
@@ -110,14 +110,14 @@ const Header = () => {
               ))}
               <div className="px-4 pt-4 border-t border-gray-200 mt-2">
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+919660103534"
                   className="flex items-center space-x-2 text-primary mb-3"
                 >
                   <Phone className="w-4 h-4" />
-                  <span className="font-poppins">+91 98765 43210</span>
+                  <span className="font-poppins">+91 96601 03534</span>
                 </a>
                 <a
-                  href="https://wa.me/919876543210"
+                  href="https://wa.me/919660103534"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary flex items-center justify-center space-x-2 w-full"
