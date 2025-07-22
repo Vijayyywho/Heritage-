@@ -41,7 +41,7 @@ const Footer = () => {
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
                 <img 
-                  src="/public/IMG_5624.PNG" 
+                  src="/IMG_5624.PNG" 
                   alt="Heritage Rides Logo" 
                   className="h-12 w-auto object-contain"
                 />

@@ -36,7 +36,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img 
-              src="/public/heritage.png" 
+              src="/heritage.png" 
               alt="Heritage Rides Logo" 
               className="h-20 w-20 object-contain rounded-full"
             />
