@@ -110,15 +110,15 @@ const TourPackages = () => {
 
                 {/* Title Overlay */}
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-raleway font-bold mb-1">{pkg.title}</h3>
-                  <div className="flex items-center space-x-4 text-sm font-poppins">
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{pkg.duration}</span>
+                  <h3 className="text-2xl font-raleway font-bold mb-1 text-white">{pkg.title}</h3>
+                  <div className="flex items-center space-x-4 text-sm font-poppins text-white">
+                    <div className="flex items-center space-x-1 text-white">
+                      <Clock className="w-4 h-4 text-white" />
+                      <span className="text-white">{pkg.duration}</span>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Users className="w-4 h-4" />
-                      <span>{pkg.capacity}</span>
+                    <div className="flex items-center space-x-1 text-white">
+                      <Users className="w-4 h-4 text-white" />
+                      <span className="text-white">{pkg.capacity}</span>
                     </div>
                   </div>
                 </div>
