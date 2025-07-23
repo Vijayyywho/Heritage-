@@ -16,10 +16,8 @@ const Header = () => {
 
   const navItems = [
     { label: 'Home', href: '#home' },
-    { label: 'Fleet', href: '#fleet' },
     { label: 'Tour Packages', href: '#tours' },
     { label: 'Places', href: '#places' },
-    { label: 'Reviews', href: '#reviews' },
     { label: 'About', href: '#about' },
     { label: 'Contact', href: '#contact' }
   ];
