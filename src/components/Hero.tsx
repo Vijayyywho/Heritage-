@@ -5,16 +5,16 @@ const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
-    // {
-    //   image: 'https://temple.yatradham.org/public/Product/temple/temple_8t3hYPtJ_202410161435320.jpg',
-    //   title: 'City Palace Heritage',
-    //   subtitle: 'Explore Royal Grandeur'
-    // },
-    // {
-    //   image: 'https://s7ap1.scene7.com/is/image/incredibleindia/jag-mandir-palace-udaipur-rajasthan-trip-hero?qlt=82&ts=1727166370692',
-    //   title: 'Lake Pichola Serenity',
-    //   subtitle: 'Romantic Lakeside Journeys'
-    // },
+    {
+      image: 'https://temple.yatradham.org/public/Product/temple/temple_8t3hYPtJ_202410161435320.jpg',
+      title: 'City Palace Heritage',
+      subtitle: 'Explore Royal Grandeur'
+    },
+    {
+      image: 'https://s7ap1.scene7.com/is/image/incredibleindia/jag-mandir-palace-udaipur-rajasthan-trip-hero?qlt=82&ts=1727166370692',
+      title: 'Lake Pichola Serenity',
+      subtitle: 'Romantic Lakeside Journeys'
+    },
     {
       image: 'https://images.pexels.com/photos/17547457/pexels-photo-17547457.jpeg',
       title: 'Monsoon Palace Views',
@@ -60,7 +60,7 @@ const Hero = () => {
       </div>
 
       {/* Slider Controls */}
-      <button
+      {/* <button
         onClick={prevSlide}
         className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
       >
@@ -72,7 +72,7 @@ const Hero = () => {
         className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
       >
         <ChevronRight className="w-6 h-6" />
-      </button>
+      </button> */}
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
