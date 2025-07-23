@@ -44,7 +44,7 @@ const Footer = () => {
   src="/Heritageridesss.png"
   alt="Heritage Rides Logo"
   className="
-    w-auto  h-auto aspect-rectangle
+    w-24 sm:w-auto h-auto aspect-rectangle
     rounded-md overflow-hidden
     object-cover object-center
   "
