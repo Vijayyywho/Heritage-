@@ -19,7 +19,7 @@ const TourPackages = () => {
     {
       id: 2,
       title: 'Lake Pichola & Islands',
-      image: 'https://images.pexels.com/photos/962464/pexels-photo-962464.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: 'https://s7ap1.scene7.com/is/image/incredibleindia/lake-pichola-udaipur-rajasthan-2-attr-hero?qlt=82&ts=1742161994371',
       duration: '6 Hours',
       capacity: '4-7 People',
       price: '₹2,500',
