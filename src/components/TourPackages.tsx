@@ -32,7 +32,7 @@ const TourPackages = () => {
     {
       id: 3,
       title: 'Airport Transfer Service',
-      image: 'https://images.pexels.com/photos/1007410/pexels-photo-1007410.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: 'https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6a/c3/21.jpg',
       duration: '1 Hour',
       capacity: '4-7 People',
       price: '₹800',
