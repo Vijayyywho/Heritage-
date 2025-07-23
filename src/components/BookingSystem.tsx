@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, Users, Car, CreditCard, CheckCircle, ArrowRight, ArrowLeft, Shield, Star, Mail, MessageCircle, Search } from 'lucide-react';
+import { vehicleAPI, bookingAPI } from '../lib/supabase';
 
 const BookingSystem = () => {
   const [bookingStep, setBookingStep] = useState(1);
   const [availabilityChecked, setAvailabilityChecked] = useState(false);
-  const [availableVehicles, setAvailableVehicles] = useState([]);
+  const [availableVehicles, setAvailableVehicles] = useState<any[]>([]);
+  const [vehicles, setVehicles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     serviceType: '',
     carType: '',
@@ -18,6 +21,20 @@ const BookingSystem = () => {
     phone: '',
     email: ''
   });
+
+  // Load vehicles on component mount
+  React.useEffect(() => {
+    loadVehicles();
+  }, []);
+
+  const loadVehicles = async () => {
+    try {
+      const vehiclesData = await vehicleAPI.getAll();
+      setVehicles(vehiclesData);
+    } catch (error) {
+      console.error('Error loading vehicles:', error);
+    }
+  };
 
   const serviceTypes = [
     { 
@@ -43,31 +60,6 @@ const BookingSystem = () => {
     }
   ];
 
-  const carTypes = [
-    { 
-      value: 'sedan', 
-      label: 'Royal Sedan', 
-      model: 'Toyota Camry Hybrid',
-      icon: '🚙',
-      price: '₹2,500/day',
-      passengers: '4 passengers',
-      features: ['Premium AC', 'GPS', 'WiFi'],
-      available: true,
-      count: 2
-    },
-    { 
-      value: 'suv', 
-      label: 'Heritage SUV', 
-      model: 'Toyota Fortuner 4WD',
-      icon: '🚐',
-      price: '₹3,200/day',
-      passengers: '7 passengers',
-      features: ['Dual AC', '4WD', 'Spacious'],
-      available: true,
-      count: 1
-    }
-  ];
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -81,16 +73,42 @@ const BookingSystem = () => {
       return;
     }
 
-    // Simulate availability check
-    setTimeout(() => {
-      const available = carTypes.map(car => ({
-        ...car,
-        available: Math.random() > 0.2, // 80% chance of availability
-        count: Math.floor(Math.random() * 3) + 1
-      }));
-      setAvailableVehicles(available);
+    setLoading(true);
+    
+    // Check availability for each vehicle
+    Promise.all(
+      vehicles.map(async (vehicle) => {
+        try {
+          const availableCount = await vehicleAPI.checkAvailability(vehicle.id, formData.pickupDate);
+          return {
+            ...vehicle,
+            value: vehicle.type,
+            label: vehicle.name,
+            icon: vehicle.type === 'sedan' ? '🚙' : '🚐',
+            price: `₹${vehicle.price_per_day}/day`,
+            passengers: `${vehicle.passengers} passengers`,
+            available: availableCount > 0,
+            count: availableCount
+          };
+        } catch (error) {
+          console.error('Error checking availability for vehicle:', vehicle.id, error);
+          return {
+            ...vehicle,
+            value: vehicle.type,
+            label: vehicle.name,
+            icon: vehicle.type === 'sedan' ? '🚙' : '🚐',
+            price: `₹${vehicle.price_per_day}/day`,
+            passengers: `${vehicle.passengers} passengers`,
+            available: false,
+            count: 0
+          };
+        }
+      })
+    ).then((results) => {
+      setAvailableVehicles(results);
       setAvailabilityChecked(true);
-    }, 1000);
+      setLoading(false);
+    });
   };
 
   const nextStep = () => {
@@ -151,41 +169,69 @@ Please confirm availability and send quote. Thank you! 🙏`;
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Generate email and WhatsApp content
-    const emailBody = generateEmailBody();
-    const whatsappMessage = generateWhatsAppMessage();
+    // Save booking to database first
+    const selectedVehicle = vehicles.find(v => v.type === formData.carType);
     
-    // Create mailto link
-    const mailtoLink = `mailto:heritagerides@gmail.com?subject=New Booking Request - ${formData.name}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Create WhatsApp link
-    const whatsappLink = `https://wa.me/919660103534?text=${encodeURIComponent(whatsappMessage)}`;
-    
-    // Open both email and WhatsApp
-    window.open(mailtoLink, '_blank');
-    setTimeout(() => {
-      window.open(whatsappLink, '_blank');
-    }, 1000);
-    
-    alert('Booking request prepared! Please check your email client and WhatsApp to send the booking details.');
-    
-    // Reset form
-    setFormData({
-      serviceType: '',
-      carType: '',
-      pickupDate: '',
-      pickupTime: '',
-      pickupLocation: '',
-      dropoffLocation: '',
-      passengers: '4',
-      duration: '',
-      name: '',
-      phone: '',
-      email: ''
-    });
-    setBookingStep(1);
-    setAvailabilityChecked(false);
-    setAvailableVehicles([]);
+    if (selectedVehicle) {
+      const bookingData = {
+        service_type: formData.serviceType,
+        vehicle_id: selectedVehicle.id,
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        pickup_date: formData.pickupDate,
+        pickup_time: formData.pickupTime,
+        pickup_location: formData.pickupLocation,
+        dropoff_location: formData.dropoffLocation || null,
+        passengers: parseInt(formData.passengers),
+        duration: formData.duration || null,
+        status: 'pending' as const,
+        total_price: selectedVehicle.price_per_day
+      };
+
+      bookingAPI.create(bookingData)
+        .then(() => {
+          // Generate email and WhatsApp content
+          const emailBody = generateEmailBody();
+          const whatsappMessage = generateWhatsAppMessage();
+          
+          // Create mailto link
+          const mailtoLink = `mailto:heritagerides@gmail.com?subject=New Booking Request - ${formData.name}&body=${encodeURIComponent(emailBody)}`;
+          
+          // Create WhatsApp link
+          const whatsappLink = `https://wa.me/919660103534?text=${encodeURIComponent(whatsappMessage)}`;
+          
+          // Open both email and WhatsApp
+          window.open(mailtoLink, '_blank');
+          setTimeout(() => {
+            window.open(whatsappLink, '_blank');
+          }, 1000);
+          
+          alert('Booking saved successfully! Please check your email client and WhatsApp to send the booking details.');
+          
+          // Reset form
+          setFormData({
+            serviceType: '',
+            carType: '',
+            pickupDate: '',
+            pickupTime: '',
+            pickupLocation: '',
+            dropoffLocation: '',
+            passengers: '4',
+            duration: '',
+            name: '',
+            phone: '',
+            email: ''
+          });
+          setBookingStep(1);
+          setAvailabilityChecked(false);
+          setAvailableVehicles([]);
+        })
+        .catch((error) => {
+          console.error('Error saving booking:', error);
+          alert('Error saving booking. Please try again.');
+        });
+    }
   };
 
   const stepTitles = [
@@ -301,17 +347,36 @@ Please confirm availability and send quote. Thank you! 🙏`;
                           <button
                             type="button"
                             onClick={checkAvailability}
+                            disabled={loading}
                             className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all duration-300 font-poppins font-medium text-sm"
                           >
-                            <Search className="w-4 h-4" />
-                            <span>Check Now</span>
+                            {loading ? (
+                              <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                <span>Checking...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Search className="w-4 h-4" />
+                                <span>Check Now</span>
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>
                     )}
 
                     <div className="grid md:grid-cols-2 gap-6">
-                      {(availabilityChecked ? availableVehicles : carTypes).map((car) => (
+                      {(availabilityChecked ? availableVehicles : vehicles.map(v => ({
+                        ...v,
+                        value: v.type,
+                        label: v.name,
+                        icon: v.type === 'sedan' ? '🚙' : '🚐',
+                        price: `₹${v.price_per_day}/day`,
+                        passengers: `${v.passengers} passengers`,
+                        available: v.is_available,
+                        count: v.available_count
+                      }))).map((car) => (
                         <div
                           key={car.value}
                           className={`group p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover-lift relative ${
@@ -349,7 +414,7 @@ Please confirm availability and send quote. Thank you! 🙏`;
                                 </p>
                               )}
                               <div className="flex flex-wrap gap-1">
-                                {car.features.map((feature, index) => (
+                                {(car.features || []).map((feature, index) => (
                                   <span key={index} className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-poppins">
                                     {feature}
                                   </span>
