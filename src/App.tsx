@@ -29,21 +29,6 @@ const HomePage = () => (
   </>
 );
 
-const HomePage = () => (
-  <>
-    <Header />
-    <Hero />
-    <Fleet />
-    <TourPackages />
-    <PlacesInUdaipur />
-    <PlacesAroundUdaipur />
-    <BookingSystem />
-    <About />
-    <Testimonials />
-    <Contact />
-    <Footer />
-  </>
-);
 
 function App() {
   return (
