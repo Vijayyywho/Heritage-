@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, vehicleAPI, bookingAPI } from '../lib/supabase';
 import { Calendar, Clock, MapPin, Users, Phone, Mail, User } from 'lucide-react';
 
 interface Vehicle {
@@ -54,14 +54,8 @@ const BookingSystem: React.FC = () => {
 
   const fetchVehicles = async () => {
     try {
-      const { data, error } = await supabase
-        .from('vehicles')
-        .select('*')
-        .eq('is_available', true)
-        .gt('available_count', 0);
-
-      if (error) throw error;
-      setVehicles(data || []);
+      const data = await vehicleAPI.getAll();
+      setVehicles(data.filter(v => v.is_available && v.available_count > 0));
     } catch (error) {
       console.error('Error fetching vehicles:', error);
     }
@@ -84,27 +78,25 @@ const BookingSystem: React.FC = () => {
       const selectedVehicle = vehicles.find(v => v.id === formData.vehicleId);
       const totalPrice = selectedVehicle ? selectedVehicle.price_per_day : 0;
 
-      // Save booking to database
-      const { data, error } = await supabase
-        .from('bookings')
-        .insert([{
-          service_type: formData.serviceType,
-          vehicle_id: formData.vehicleId || null,
-          customer_name: formData.customerName,
-          customer_email: formData.customerEmail,
-          customer_phone: formData.customerPhone,
-          pickup_date: formData.pickupDate,
-          pickup_time: formData.pickupTime,
-          pickup_location: formData.pickupLocation,
-          dropoff_location: formData.dropoffLocation,
-          passengers: formData.passengers,
-          duration: formData.duration,
-          total_price: totalPrice,
-          notes: formData.notes,
-          status: 'pending'
-        }]);
+      // Save booking to database using API
+      const bookingData = {
+        service_type: formData.serviceType,
+        vehicle_id: formData.vehicleId || null,
+        customer_name: formData.customerName,
+        customer_email: formData.customerEmail,
+        customer_phone: formData.customerPhone,
+        pickup_date: formData.pickupDate,
+        pickup_time: formData.pickupTime,
+        pickup_location: formData.pickupLocation,
+        dropoff_location: formData.dropoffLocation,
+        passengers: formData.passengers,
+        duration: formData.duration,
+        total_price: totalPrice,
+        notes: formData.notes,
+        status: 'pending' as const
+      };
 
-      if (error) throw error;
+      await bookingAPI.create(bookingData);
 
       // Generate email content
       const emailSubject = `Heritage Rides Booking Request - ${formData.customerName}`;
@@ -156,10 +148,10 @@ Please contact the customer to confirm the booking.
       window.open(mailtoLink, '_blank');
 
       // Open WhatsApp
-      const whatsappLink = `https://wa.me/919876543210?text=${encodeURIComponent(whatsappMessage)}`;
+      const whatsappLink = `https://wa.me/919660103534?text=${encodeURIComponent(whatsappMessage)}`;
       window.open(whatsappLink, '_blank');
 
-      alert('Booking request submitted successfully! Please check your email and WhatsApp.');
+      alert('Booking request submitted successfully! We will contact you shortly to confirm your booking.');
       
       // Reset form
       setFormData({
@@ -186,10 +178,23 @@ Please contact the customer to confirm the booking.
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Book Your Heritage Ride</h2>
+    <section id="booking" className="py-section bg-background">
+      <div className="container mx-auto">
+        <div className="text-center mb-12">
+          <span className="inline-block px-4 py-2 bg-primary/10 text-primary font-poppins font-medium text-sm rounded-full mb-4">
+            Reserve Now
+          </span>
+          <h2 className="text-4xl md:text-5xl font-raleway font-bold text-primary mb-6">
+            Book Your Heritage Ride
+          </h2>
+          <p className="text-lg text-text-secondary max-w-2xl mx-auto font-poppins leading-relaxed">
+            Ready to explore Udaipur? Fill out the form below and we'll get back to you within 2 hours to confirm your booking.
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto bg-surface rounded-2xl shadow-xl p-6 md:p-8 border border-gray-100">
       
-      <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
         {/* Service Type */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -199,7 +204,7 @@ Please contact the customer to confirm the booking.
             name="serviceType"
             value={formData.serviceType}
             onChange={handleInputChange}
-            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
             required
           >
             <option value="rental">Vehicle Rental</option>
@@ -217,7 +222,7 @@ Please contact the customer to confirm the booking.
             name="vehicleId"
             value={formData.vehicleId}
             onChange={handleInputChange}
-            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
             required
           >
             <option value="">Choose a vehicle</option>
@@ -230,7 +235,7 @@ Please contact the customer to confirm the booking.
         </div>
 
         {/* Customer Information */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <User className="inline w-4 h-4 mr-1" />
@@ -241,7 +246,7 @@ Please contact the customer to confirm the booking.
               name="customerName"
               value={formData.customerName}
               onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
               required
             />
           </div>
@@ -255,7 +260,7 @@ Please contact the customer to confirm the booking.
               name="customerEmail"
               value={formData.customerEmail}
               onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
               required
             />
           </div>
@@ -269,14 +274,14 @@ Please contact the customer to confirm the booking.
               name="customerPhone"
               value={formData.customerPhone}
               onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
               required
             />
           </div>
         </div>
 
         {/* Date and Time */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <Calendar className="inline w-4 h-4 mr-1" />
@@ -288,7 +293,7 @@ Please contact the customer to confirm the booking.
               value={formData.pickupDate}
               onChange={handleInputChange}
               min={new Date().toISOString().split('T')[0]}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
               required
             />
           </div>
@@ -302,14 +307,14 @@ Please contact the customer to confirm the booking.
               name="pickupTime"
               value={formData.pickupTime}
               onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
               required
             />
           </div>
         </div>
 
         {/* Locations */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <MapPin className="inline w-4 h-4 mr-1" />
@@ -321,7 +326,7 @@ Please contact the customer to confirm the booking.
               value={formData.pickupLocation}
               onChange={handleInputChange}
               placeholder="Enter pickup address"
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
               required
             />
           </div>
@@ -336,13 +341,13 @@ Please contact the customer to confirm the booking.
               value={formData.dropoffLocation}
               onChange={handleInputChange}
               placeholder="Enter dropoff address"
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
             />
           </div>
         </div>
 
         {/* Passengers and Duration */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <Users className="inline w-4 h-4 mr-1" />
@@ -355,7 +360,7 @@ Please contact the customer to confirm the booking.
               onChange={handleInputChange}
               min="1"
               max="20"
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
               required
             />
           </div>
@@ -367,7 +372,7 @@ Please contact the customer to confirm the booking.
               name="duration"
               value={formData.duration}
               onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins"
             >
               <option value="">Select duration</option>
               <option value="4 hours">4 Hours</option>
@@ -392,7 +397,7 @@ Please contact the customer to confirm the booking.
             onChange={handleInputChange}
             rows={4}
             placeholder="Any special requirements or additional information..."
-            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-poppins resize-none"
           />
         </div>
 
@@ -401,12 +406,15 @@ Please contact the customer to confirm the booking.
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-primary py-4 px-8 font-poppins font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
           >
             {loading ? 'Submitting...' : 'Submit Booking Request'}
           </button>
         </div>
-      </form>
+          </form>
+        </div>
+      </div>
+    </section>
     </div>
   );
 };
