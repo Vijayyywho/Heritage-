@@ -6,7 +6,7 @@ const TourPackages = () => {
     {
       id: 1,
       title: 'City Palace Heritage Tour',
-      image: 'https://images.pexels.com/photos/3581368/pexels-photo-3581368.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: 'https://img.avianexperiences.com/trek/90e96e03-4abb-4ad5-984e-0b065eda1519',
       duration: '4 Hours',
       capacity: '4-7 People',
       price: '₹1,800',
