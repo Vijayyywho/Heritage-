@@ -60,11 +60,7 @@ const Hero = () => {
       </div>
 
       {/* Slider Controls */}
-<<<<<<< HEAD
       <button
-=======
-      {/* <button
->>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
         onClick={prevSlide}
         className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
       >
@@ -76,11 +72,7 @@ const Hero = () => {
         className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
       >
         <ChevronRight className="w-6 h-6" />
-<<<<<<< HEAD
       </button>
-=======
-      </button> */}
->>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
