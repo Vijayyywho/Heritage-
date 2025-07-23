@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Fleet from './components/Fleet';
@@ -12,6 +13,23 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
+import AdminDashboard from './components/AdminDashboard';
+
+const HomePage = () => (
+  <>
+    <Header />
+    <Hero />
+    <Fleet />
+    <TourPackages />
+    <PlacesInUdaipur />
+    <PlacesAroundUdaipur />
+    <BookingSystem />
+    <About />
+    <Testimonials />
+    <Contact />
+    <Footer />
+  </>
+);
 
 const HomePage = () => (
   <>
@@ -39,7 +57,3 @@ function App() {
         </Routes>
       </div>
     </Router>
-  );
-}
-
-export default App;

@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, Users, Car, CreditCard, CheckCircle, ArrowRight, ArrowLeft, Shield, Star, Mail, MessageCircle, Search } from 'lucide-react';
 import { vehicleAPI, bookingAPI } from '../lib/supabase';
+import { vehicleAPI, bookingAPI } from '../lib/supabase';
 
 const BookingSystem = () => {
   const [bookingStep, setBookingStep] = useState(1);
+  const [availabilityChecked, setAvailabilityChecked] = useState(false);
+  const [availableVehicles, setAvailableVehicles] = useState<any[]>([]);
+  const [vehicles, setVehicles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
   const [availabilityChecked, setAvailabilityChecked] = useState(false);
   const [availableVehicles, setAvailableVehicles] = useState<any[]>([]);
   const [vehicles, setVehicles] = useState<any[]>([]);
@@ -21,6 +26,64 @@ const BookingSystem = () => {
     phone: '',
     email: ''
   });
+
+  const checkAvailability = () => {
+    if (!formData.pickupDate || !formData.pickupTime) {
+      alert('Please select pickup date and time first');
+      return;
+    }
+
+    setLoading(true);
+    
+    // Check availability for each vehicle
+    Promise.all(
+      vehicles.map(async (vehicle) => {
+        try {
+          const availableCount = await vehicleAPI.checkAvailability(vehicle.id, formData.pickupDate);
+          return {
+            ...vehicle,
+            value: vehicle.type,
+            label: vehicle.name,
+            icon: vehicle.type === 'sedan' ? '🚙' : '🚐',
+            price: `₹${vehicle.price_per_day}/day`,
+            passengers: `${vehicle.passengers} passengers`,
+            available: availableCount > 0,
+            count: availableCount
+          };
+        } catch (error) {
+          console.error('Error checking availability for vehicle:', vehicle.id, error);
+          return {
+            ...vehicle,
+            value: vehicle.type,
+            label: vehicle.name,
+            icon: vehicle.type === 'sedan' ? '🚙' : '🚐',
+            price: `₹${vehicle.price_per_day}/day`,
+            passengers: `${vehicle.passengers} passengers`,
+            available: false,
+            count: 0
+          };
+        }
+      })
+    ).then((results) => {
+      setAvailableVehicles(results);
+      setAvailabilityChecked(true);
+      setLoading(false);
+    });
+  };
+
+  // Load vehicles on component mount
+  React.useEffect(() => {
+    loadVehicles();
+  }, []);
+
+  const loadVehicles = async () => {
+    try {
+      const vehiclesData = await vehicleAPI.getAll();
+      setVehicles(vehiclesData);
+    } catch (error) {
+      console.error('Error loading vehicles:', error);
+    }
+  };
 
   // Load vehicles on component mount
   React.useEffect(() => {
@@ -166,11 +229,119 @@ Heritage Rides Booking System
 Please confirm availability and send quote. Thank you! 🙏`;
   };
 
+  const generateEmailBody = () => {
+    return `
+New Booking Request - Heritage Rides
+
+Service Details:
+- Service Type: ${formData.serviceType}
+- Vehicle: ${formData.carType}
+- Date: ${formData.pickupDate}
+- Time: ${formData.pickupTime}
+- Pickup Location: ${formData.pickupLocation}
+- Drop-off Location: ${formData.dropoffLocation || 'Not specified'}
+- Passengers: ${formData.passengers}
+- Duration: ${formData.duration || 'As per service'}
+
+Customer Details:
+- Name: ${formData.name}
+- Phone: ${formData.phone}
+- Email: ${formData.email}
+
+Please confirm availability and pricing.
+
+Best regards,
+Heritage Rides Booking System
+    `.trim();
+  };
+
+  const generateWhatsAppMessage = () => {
+    return `🚗 *Heritage Rides Booking Request*
+
+*Service Details:*
+• Service: ${formData.serviceType}
+• Vehicle: ${formData.carType}
+• Date: ${formData.pickupDate}
+• Time: ${formData.pickupTime}
+• Pickup: ${formData.pickupLocation}
+• Drop-off: ${formData.dropoffLocation || 'Not specified'}
+• Passengers: ${formData.passengers}
+• Duration: ${formData.duration || 'As per service'}
+
+*Customer Details:*
+• Name: ${formData.name}
+• Phone: ${formData.phone}
+• Email: ${formData.email}
+
+Please confirm availability and send quote. Thank you! 🙏`;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Save booking to database first
     const selectedVehicle = vehicles.find(v => v.type === formData.carType);
+    
+    if (selectedVehicle) {
+      const bookingData = {
+        service_type: formData.serviceType,
+        vehicle_id: selectedVehicle.id,
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        pickup_date: formData.pickupDate,
+        pickup_time: formData.pickupTime,
+        pickup_location: formData.pickupLocation,
+        dropoff_location: formData.dropoffLocation || null,
+        passengers: parseInt(formData.passengers),
+        duration: formData.duration || null,
+        status: 'pending' as const,
+        total_price: selectedVehicle.price_per_day
+      };
+
+      bookingAPI.create(bookingData)
+        .then(() => {
+          // Generate email and WhatsApp content
+          const emailBody = generateEmailBody();
+          const whatsappMessage = generateWhatsAppMessage();
+          
+          // Create mailto link
+          const mailtoLink = `mailto:heritagerides@gmail.com?subject=New Booking Request - ${formData.name}&body=${encodeURIComponent(emailBody)}`;
+          
+          // Create WhatsApp link
+          const whatsappLink = `https://wa.me/919660103534?text=${encodeURIComponent(whatsappMessage)}`;
+          
+          // Open both email and WhatsApp
+          window.open(mailtoLink, '_blank');
+          setTimeout(() => {
+            window.open(whatsappLink, '_blank');
+          }, 1000);
+          
+          alert('Booking saved successfully! Please check your email client and WhatsApp to send the booking details.');
+          
+          // Reset form
+          setFormData({
+            serviceType: '',
+            carType: '',
+            pickupDate: '',
+            pickupTime: '',
+            pickupLocation: '',
+            dropoffLocation: '',
+            passengers: '4',
+            duration: '',
+            name: '',
+            phone: '',
+            email: ''
+          });
+          setBookingStep(1);
+          setAvailabilityChecked(false);
+          setAvailableVehicles([]);
+        })
+        .catch((error) => {
+          console.error('Error saving booking:', error);
+          alert('Error saving booking. Please try again.');
+        });
+    }
     
     if (selectedVehicle) {
       const bookingData = {
@@ -365,9 +536,50 @@ Please confirm availability and send quote. Thank you! 🙏`;
                         </div>
                       </div>
                     )}
+                    
+                    {/* Availability Checker */}
+                    {formData.pickupDate && formData.pickupTime && (
+                      <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="font-raleway font-semibold text-primary mb-1">Check Vehicle Availability</h4>
+                            <p className="text-sm text-text-secondary font-poppins">
+                              {formData.pickupDate} at {formData.pickupTime}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={checkAvailability}
+                            disabled={loading}
+                            className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all duration-300 font-poppins font-medium text-sm"
+                          >
+                            {loading ? (
+                              <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                <span>Checking...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Search className="w-4 h-4" />
+                                <span>Check Now</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    )}
 
                     <div className="grid md:grid-cols-2 gap-6">
                       {(availabilityChecked ? availableVehicles : vehicles.map(v => ({
+                        ...v,
+                        value: v.type,
+                        label: v.name,
+                        icon: v.type === 'sedan' ? '🚙' : '🚐',
+                        price: `₹${v.price_per_day}/day`,
+                        passengers: `${v.passengers} passengers`,
+                        available: v.is_available,
+                        count: v.available_count
+                      }))).map((car) => (
                         ...v,
                         value: v.type,
                         label: v.name,
@@ -385,9 +597,24 @@ Please confirm availability and send quote. Thank you! 🙏`;
                               : car.available 
                                 ? 'border-gray-200 hover:border-gray-300 bg-surface'
                                 : 'border-red-200 bg-red-50 opacity-60 cursor-not-allowed'
+                                ? 'border-gray-200 hover:border-gray-300 bg-surface'
+                                : 'border-red-200 bg-red-50 opacity-60 cursor-not-allowed'
                           }`}
                           onClick={() => car.available && setFormData({ ...formData, carType: car.value })}
                         >
+                          {/* Availability Badge */}
+                          {availabilityChecked && (
+                            <div className="absolute top-3 right-3">
+                              <span className={`px-2 py-1 rounded-full text-xs font-poppins font-medium ${
+                                car.available 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : 'bg-red-100 text-red-800'
+                              }`}>
+                                {car.available ? `${car.count} Available` : 'Not Available'}
+                              </span>
+                            </div>
+                          )}
+                          
                           {/* Availability Badge */}
                           {availabilityChecked && (
                             <div className="absolute top-3 right-3">
@@ -408,6 +635,11 @@ Please confirm availability and send quote. Thank you! 🙏`;
                               <p className="text-text-secondary font-poppins text-sm mb-2">{car.model}</p>
                               <p className="text-secondary font-poppins font-semibold mb-2">{car.price}</p>
                               <p className="text-text-secondary font-poppins text-sm mb-3">{car.passengers}</p>
+                              {!car.available && availabilityChecked && (
+                                <p className="text-red-600 font-poppins text-sm mb-3 font-medium">
+                                  Not available for selected date/time
+                                </p>
+                              )}
                               {!car.available && availabilityChecked && (
                                 <p className="text-red-600 font-poppins text-sm mb-3 font-medium">
                                   Not available for selected date/time
@@ -650,6 +882,9 @@ Please confirm availability and send quote. Thank you! 🙏`;
                   >
                     <div className="flex items-center space-x-2">
                       <Mail className="w-5 h-5" />
+                      <MessageCircle className="w-5 h-5" />
+                      <span>Send Booking Request</span>
+                    </div>
                       <MessageCircle className="w-5 h-5" />
                       <span>Send Booking Request</span>
                     </div>
