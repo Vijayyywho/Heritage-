@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Clock, Mountain, Temple, Shield, Star, ArrowUpRight } from 'lucide-react';
+import { MapPin, Clock, Mountain, BookTemplate as Temple, Shield, Star, ArrowUpRight } from 'lucide-react';
 
 const PlacesAroundUdaipur = () => {
   const places = [
