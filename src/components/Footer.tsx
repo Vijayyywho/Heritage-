@@ -40,11 +40,15 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
-                <img 
-                  src="/IMG_5624.PNG" 
-                  alt="Heritage Rides Logo" 
-                  className="h-12 w-auto object-contain"
-                />
+              <img
+  src="/Heritageridesss.png"
+  alt="Heritage Rides Logo"
+  className="
+    w-auto  h-auto aspect-rectangle
+    rounded-md overflow-hidden
+    object-cover object-center
+  "
+/>
                 <div>
                   <h3 className="text-2xl font-raleway font-bold">Heritage Rides</h3>
                   <p className="text-sm text-secondary font-poppins">City of Lakes</p>

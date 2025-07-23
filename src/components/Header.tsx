@@ -37,7 +37,11 @@ const Header = () => {
             <img 
               src="/heritage.png" 
               alt="Heritage Rides Logo" 
-              className="h-20 w-20 object-contain rounded-full"
+              className="h-20 w-20 object-contain rounded-full
+              
+                h-auto aspect-rectangle
+    rounded-md overflow-hidden
+    object-cover object-center"
             />
             <div className="transition-colors duration-300">
               <h1 className={`text-xl font-raleway font-bold transition-colors duration-300 ${isScrolled ? 'text-black' : 'text-white'}`}>Heritage Rides</h1>
