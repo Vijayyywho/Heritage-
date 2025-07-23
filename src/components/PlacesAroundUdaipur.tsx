@@ -6,7 +6,11 @@ const PlacesAroundUdaipur = () => {
     {
       id: 1,
       name: 'Kumbhalgarh Fort',
+<<<<<<< HEAD
       image: 'https://images.pexels.com/photos/3581368/pexels-photo-3581368.jpeg?auto=compress&cs=tinysrgb&w=800',
+=======
+      image: 'https://images.unsplash.com/photo-1651739312933-9026620a78a5?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a3VtYmhhbGdhcmh8ZW58MHx8MHx8fDA%3D',
+>>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       description: 'Second most important citadel after Chittorgarh, built in 15th century with 36km long walls.',
       distance: '100km',
       driveTime: '2 hours',
@@ -18,7 +22,11 @@ const PlacesAroundUdaipur = () => {
     {
       id: 2,
       name: 'Ranakpur Jain Temples',
+<<<<<<< HEAD
       image: 'https://images.pexels.com/photos/5214413/pexels-photo-5214413.jpeg?auto=compress&cs=tinysrgb&w=800',
+=======
+      image: 'https://plus.unsplash.com/premium_photo-1697730481640-114d8546ef3d?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuYWtwdXIlMjBqYWluJTIwdGVtcGxlfGVufDB8fDB8fHww',
+>>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       description: 'Beautifully sculptured Jain temples, one of five holy places for Jain community.',
       distance: '109km',
       driveTime: '2 hours',
@@ -30,7 +38,11 @@ const PlacesAroundUdaipur = () => {
     {
       id: 3,
       name: 'Chittorgarh Fort',
+<<<<<<< HEAD
       image: 'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=800',
+=======
+      image: 'https://images.unsplash.com/photo-1717329162563-2f93e83cc717?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hpdHRvcmdhcmglMjBmb3J0fGVufDB8fDB8fHww',
+>>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       description: 'Epitome of Rajput pride and spirit, massive hilltop fort depicting Rajput culture.',
       distance: '126km',
       driveTime: '3 hours',
@@ -41,7 +53,11 @@ const PlacesAroundUdaipur = () => {
     {
       id: 4,
       name: 'Eklingji Temple',
+<<<<<<< HEAD
       image: 'https://images.pexels.com/photos/1007427/pexels-photo-1007427.jpeg?auto=compress&cs=tinysrgb&w=800',
+=======
+      image: 'https://media.istockphoto.com/id/1196518135/photo/dead-temple-in-rajasthan.jpg?s=612x612&w=0&k=20&c=dZTNwpuGcCRNUOTQ13Kx7b3O49wFdnwVZW1KQ4eCk2o=',
+>>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       description: 'Hindu temple complex with 108 temples built in 734 AD, devoted to Lord Shiva.',
       distance: '22km',
       driveTime: '30 mins',
@@ -53,7 +69,11 @@ const PlacesAroundUdaipur = () => {
     {
       id: 5,
       name: 'Nathdwara',
+<<<<<<< HEAD
       image: 'https://images.pexels.com/photos/962464/pexels-photo-962464.jpeg?auto=compress&cs=tinysrgb&w=800',
+=======
+      image: 'https://assets.zeezest.com/blogs/PROD_Nathdwara%20cover_1714031994270.jpg',
+>>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       description: 'Gateway to the Lord - Vaishnavite shrine built in 17th century.',
       distance: '61km',
       driveTime: '1 hour',
@@ -64,7 +84,11 @@ const PlacesAroundUdaipur = () => {
     {
       id: 6,
       name: 'Haldi Ghati',
+<<<<<<< HEAD
       image: 'https://images.pexels.com/photos/1134166/pexels-photo-1134166.jpeg?auto=compress&cs=tinysrgb&w=800',
+=======
+      image: 'https://s7ap1.scene7.com/is/image/incredibleindia/2-haldighati-udaipur-rajasthan-attr-hero?qlt=82&ts=1742160239591',
+>>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       description: 'Historical battlefield where Maharana Pratap fought against Mughal Emperor Akbar in 1576.',
       distance: '40km',
       driveTime: '1 hour',
@@ -75,7 +99,11 @@ const PlacesAroundUdaipur = () => {
     {
       id: 7,
       name: 'Jaisamand Lake',
+<<<<<<< HEAD
       image: 'https://images.pexels.com/photos/1007410/pexels-photo-1007410.jpeg?auto=compress&cs=tinysrgb&w=800',
+=======
+      image: 'https://udaipurtourism.co.in/images/places-to-visit/headers/jaisamand-lake-udaipur-indian-tourism-entry-fee-timings-holidays-reviews-header.jpg',
+>>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       description: 'Second largest artificial lake in Asia, built by Maharana Jai Singh in 1691.',
       distance: '50km',
       driveTime: '1.5 hours',
