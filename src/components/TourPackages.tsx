@@ -6,11 +6,7 @@ const TourPackages = () => {
     {
       id: 1,
       title: 'City Palace Heritage Tour',
-<<<<<<< HEAD
-      image: 'https://images.pexels.com/photos/3581368/pexels-photo-3581368.jpeg?auto=compress&cs=tinysrgb&w=800',
-=======
       image: 'https://img.avianexperiences.com/trek/90e96e03-4abb-4ad5-984e-0b065eda1519',
->>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       duration: '4 Hours',
       capacity: '4-7 People',
       price: '₹1,800',
@@ -23,11 +19,7 @@ const TourPackages = () => {
     {
       id: 2,
       title: 'Lake Pichola & Islands',
-<<<<<<< HEAD
-      image: 'https://images.pexels.com/photos/962464/pexels-photo-962464.jpeg?auto=compress&cs=tinysrgb&w=800',
-=======
       image: 'https://s7ap1.scene7.com/is/image/incredibleindia/lake-pichola-udaipur-rajasthan-2-attr-hero?qlt=82&ts=1742161994371',
->>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       duration: '6 Hours',
       capacity: '4-7 People',
       price: '₹2,500',
@@ -40,11 +32,7 @@ const TourPackages = () => {
     {
       id: 3,
       title: 'Airport Transfer Service',
-<<<<<<< HEAD
-      image: 'https://images.pexels.com/photos/1007410/pexels-photo-1007410.jpeg?auto=compress&cs=tinysrgb&w=800',
-=======
       image: 'https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6a/c3/21.jpg',
->>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       duration: '1 Hour',
       capacity: '4-7 People',
       price: '₹800',
@@ -57,11 +45,7 @@ const TourPackages = () => {
     {
       id: 4,
       title: 'Monsoon Palace & Hills',
-<<<<<<< HEAD
-      image: 'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=800',
-=======
       image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1e/6e/3b/30/the-monsoon-palace-also.jpg?w=800&h=500&s=1',
->>>>>>> a1ec68d407de2881a8f5d0005cbaaaa9dbb50f9f
       duration: '5 Hours',
       capacity: '4-7 People',
       price: '₹2,200',
