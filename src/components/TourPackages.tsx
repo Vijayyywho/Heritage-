@@ -45,7 +45,7 @@ const TourPackages = () => {
     {
       id: 4,
       title: 'Monsoon Palace & Hills',
-      image: 'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1e/6e/3b/30/the-monsoon-palace-also.jpg?w=800&h=500&s=1',
       duration: '5 Hours',
       capacity: '4-7 People',
       price: '₹2,200',
