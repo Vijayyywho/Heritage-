@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, Users, Car, CreditCard, CheckCircle, ArrowRight, ArrowLeft, Shield, Star } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const BookingSystem = () => {
   const [bookingStep, setBookingStep] = useState(1);
@@ -77,8 +78,32 @@ const BookingSystem = () => {
     if (bookingStep > 1) setBookingStep(bookingStep - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Prepare data for Supabase
+    const bookingData = {
+      customer_name: formData.name,
+      customer_email: formData.email,
+      customer_phone: formData.phone,
+      pickup_date: formData.pickupDate,
+      pickup_time: formData.pickupTime,
+      pickup_location: formData.pickupLocation,
+      dropoff_location: formData.dropoffLocation,
+      passengers: Number(formData.passengers),
+      service_type: formData.serviceType,
+      car_type: formData.carType,
+      duration: formData.duration,
+      status: 'pending',
+      notes: ''
+    };
+
+    const { error } = await supabase.from('bookings').insert([bookingData]);
+    if (error) {
+      alert('Booking failed: ' + error.message);
+      return;
+    }
+
     alert('Booking request submitted successfully! We will contact you within 15 minutes to confirm your reservation.');
     // Reset form
     setFormData({

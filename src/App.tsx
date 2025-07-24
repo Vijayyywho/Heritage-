@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Fleet from './components/Fleet';
@@ -10,22 +11,33 @@ import About from './components/About';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <Hero />
-      <Fleet />
-      <TourPackages />
-      <PlacesInUdaipur />
-      <PlacesAroundUdaipur />
-      <BookingSystem />
-      <About />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="min-h-screen bg-white">
+              <Header />
+              <Hero />
+              <Fleet />
+              <TourPackages />
+              <PlacesInUdaipur />
+              <PlacesAroundUdaipur />
+              <BookingSystem />
+              <About />
+              <Testimonials />
+              <Contact />
+              <Footer />
+            </div>
+          }
+        />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
