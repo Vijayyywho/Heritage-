@@ -8,7 +8,7 @@ const Fleet = () => {
       id: 1,
       name: 'Premium Innova',
       model: 'Toyota Innova Crysta',
-      image: '/public/inova.jpg',
+      image: '/inova.jpg',  // fixed path
       passengers: 5,
       fuel: 'Hybrid',
       transmission: 'Automatic',
@@ -21,9 +21,9 @@ const Fleet = () => {
     },
     {
       id: 2,
-      name: ' SUV',
+      name: 'SUV',
       model: 'Toyota Innova',
-      image: '/public/inovaa.jpg',
+      image: '/inovaa.jpg',  // fixed path
       passengers: 7,
       fuel: 'Diesel',
       transmission: 'Manual',
