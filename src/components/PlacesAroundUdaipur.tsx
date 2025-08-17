@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Clock, Mountain, BookTemplate as Temple, Shield, Star, ArrowUpRight } from 'lucide-react';
+import SEOTags from './SEOTags';
 
 const PlacesAroundUdaipur = () => {
   const places = [
@@ -114,6 +115,11 @@ const PlacesAroundUdaipur = () => {
 
   return (
     <section className="py-section bg-gradient-to-br from-background to-surface">
+      <SEOTags
+        title="Places Around Udaipur 🗺️ Forts & Temples Near Udaipur | Heritage Rides"
+        description="Explore magnificent forts like Kumbhalgarh & Chittorgarh, and ancient temples near Udaipur with Heritage Rides day trips."
+        keywords="places around Udaipur, day trips from Udaipur, Kumbhalgarh Fort, Ranakpur Jain Temples, Chittorgarh Fort, Eklingji Temple, Nathdwara, Haldi Ghati, Jaisamand Lake, Heritage Rides excursions"
+      />
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-16 animate-slide-up">

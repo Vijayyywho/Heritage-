@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageCircle, Clock, Send, Globe, Award } from 'lucide-react';
+import SEOTags from './SEOTags';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -55,6 +56,11 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-section bg-background">
+      <SEOTags
+        title="Contact Heritage Rides 📞 Car Rental & Tours in Udaipur | Get in Touch"
+        description="Contact Heritage Rides for private car rentals, sightseeing tours, and day trips in Udaipur. Call, email, or WhatsApp us for instant bookings and inquiries."
+        keywords="contact Heritage Rides, car rental Udaipur contact, Udaipur tour inquiry, book car Udaipur, Heritage Rides phone number, email Heritage Rides"
+      />
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-16 animate-slide-up">

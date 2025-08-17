@@ -268,7 +268,7 @@ const AdminDashboard = () => {
               {vehicles.map((vehicle) => (
                 <div key={vehicle.id} className="bg-white rounded-xl shadow-sm border overflow-hidden">
                   <img
-                    src={vehicle.image_url || 'https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&w=400'}
+                    src={vehicle.image_url ?? 'https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&w=400'}
                     alt={vehicle.name}
                     className="w-full h-40 sm:h-48 object-cover"
                   />
@@ -598,7 +598,7 @@ const VehicleModal: React.FC<{
               <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Type</label>
               <select
                 value={formData.type}
-                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, type: e.target.value as Vehicle['type'] })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
               >
                 <option value="sedan">Sedan</option>

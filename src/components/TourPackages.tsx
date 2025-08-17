@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Clock, Users, Camera, Star, ArrowRight } from 'lucide-react';
+import SEOTags from './SEOTags';
 
 const TourPackages = () => {
   const packages = [
@@ -59,6 +60,11 @@ const TourPackages = () => {
 
   return (
     <section id="tours" className="py-section bg-background">
+      <SEOTags
+        title="Udaipur Tour Packages 🏰 City Sightseeing & Day Trips | Heritage Rides"
+        description="Discover expertly curated car tour packages for Udaipur city sightseeing, heritage tours, and day trips with Heritage Rides."
+        keywords="Udaipur tour packages, city tour Udaipur, sightseeing tours Udaipur, heritage tour Udaipur, day trips from Udaipur, private tours Udaipur"
+      />
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-16 animate-slide-up">

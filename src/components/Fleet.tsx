@@ -1,14 +1,15 @@
 import React from 'react';
 import { Users, Fuel, Settings, Star, Calendar, Shield, Award } from 'lucide-react';
+import SEOTags from './SEOTags';
 
 const Fleet = () => {
   const cars = [
     {
       id: 1,
-      name: 'Royal Sedan',
-      model: 'Toyota Camry Hybrid',
-      image: 'https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&w=800',
-      passengers: 4,
+      name: 'Premium Innova',
+      model: 'Toyota Innova Crysta',
+      image: '/public/inova.jpg',
+      passengers: 5,
       fuel: 'Hybrid',
       transmission: 'Automatic',
       features: ['Premium AC', 'GPS Navigation', 'WiFi Hotspot', 'Premium Sound', 'Leather Seats', 'Phone Charger'],
@@ -20,9 +21,9 @@ const Fleet = () => {
     },
     {
       id: 2,
-      name: 'Heritage SUV',
-      model: 'Toyota Fortuner 4WD',
-      image: 'https://images.pexels.com/photos/1007410/pexels-photo-1007410.jpeg?auto=compress&cs=tinysrgb&w=800',
+      name: ' SUV',
+      model: 'Toyota Innova',
+      image: '/public/inovaa.jpg',
       passengers: 7,
       fuel: 'Diesel',
       transmission: 'Manual',
@@ -37,6 +38,11 @@ const Fleet = () => {
 
   return (
     <section id="fleet" className="py-section bg-surface">
+      <SEOTags
+        title="Our Fleet 🚗 Premium Car Rental Udaipur | Heritage Rides Vehicles"
+        description="Explore the premium fleet of Heritage Rides for car rentals in Udaipur. Choose from our sedans and SUVs for comfortable and luxurious travel."
+        keywords="car fleet Udaipur, premium car rental Udaipur, SUV rental Udaipur, sedan rental Udaipur, luxury cars Udaipur, Heritage Rides vehicles"
+      />
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-16 animate-slide-up">

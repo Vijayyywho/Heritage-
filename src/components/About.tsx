@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Award, Users, Heart, Crown, MapPin } from 'lucide-react';
+import SEOTags from './SEOTags';
 
 const About = () => {
   const values = [
@@ -38,6 +39,11 @@ const About = () => {
 
   return (
     <section id="about" className="py-section bg-surface">
+      <SEOTags
+        title="About Heritage Rides 🚗 Udaipur Car Tour Experts | Our Story & Values"
+        description="Learn about Heritage Rides, your trusted partner for private car tours in Udaipur. Discover our commitment to safety, local expertise, and personalized royal experiences."
+        keywords="about Heritage Rides, Udaipur car tour company, best car rental Udaipur, personalized tours Udaipur, local experts Udaipur, safe car tours Udaipur"
+      />
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
           {/* Content */}

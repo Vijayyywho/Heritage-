@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Clock, Camera, Star, Crown, Heart, Eye } from 'lucide-react';
+import SEOTags from './SEOTags';
 
 const PlacesInUdaipur = () => {
   const places = [
@@ -106,6 +107,11 @@ const PlacesInUdaipur = () => {
 
   return (
     <section id="places" className="py-section bg-surface">
+      <SEOTags
+        title="Places to Visit in Udaipur 🏰 Top Tourist Attractions | Heritage Rides"
+        description="Discover the best places to visit in Udaipur, including City Palace, Lake Pichola, and Sajjangarh Palace, with Heritage Rides car tours."
+        keywords="places to visit in Udaipur, Udaipur attractions, City Palace Udaipur, Lake Pichola, Sajjangarh Palace, Udaipur tourist spots, Heritage Rides sightseeing"
+      />
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-16 animate-slide-up">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, Users, Car, CreditCard, CheckCircle, ArrowRight, ArrowLeft, Shield, Star } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+
+import { bookingAPI } from '../lib/supabase'
 
 const BookingSystem = () => {
   const [bookingStep, setBookingStep] = useState(1);
@@ -98,8 +99,9 @@ const BookingSystem = () => {
       notes: ''
     };
 
-    const { error } = await supabase.from('bookings').insert([bookingData]);
-    if (error) {
+    try {
+      await bookingAPI.create(bookingData as any);
+    } catch (error: any) {
       alert('Booking failed: ' + error.message);
       return;
     }

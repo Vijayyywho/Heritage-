@@ -12,6 +12,7 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
+import SEOTags from './components/SEOTags';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           path="/"
           element={
             <div className="min-h-screen bg-white">
+              <SEOTags /> {/* Default SEO for the homepage */}
               <Header />
               <Hero />
               <Fleet />
