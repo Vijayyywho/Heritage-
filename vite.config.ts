@@ -4,6 +4,12 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ['lucide-react', '@rollup/rollup-linux-x64-gnu']
+    exclude: ['lucide-react', '@rollup/rollup-linux-x64-gnu'],
+  },
+  css: {
+    modules: {
+      // Use 'local' to scope CSS by default
+      scopeBehaviour: 'local',
+    },
   },
 });
