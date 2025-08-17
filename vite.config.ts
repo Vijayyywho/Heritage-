@@ -4,6 +4,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ['lucide-react'] // avoids Rollup/Linux build issues
-  }
+    exclude: ['lucide-react', '@rollup/rollup-linux-x64-gnu']
+  },
 });
