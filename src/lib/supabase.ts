@@ -1,3 +1,5 @@
+import { createClient } from '@supabase/supabase-js';
+
 export interface Vehicle {
   id: string;
   name: string;
@@ -43,49 +45,13 @@ class SupabaseAPI<T> {
     this.tableName = tableName;
   }
 
-  // This would typically use a Supabase client, which needs to be initialized.
-  // For now, we'll use placeholder functions.
-  // In a real app, you'd import and use 'createClient' from '@supabase/supabase-js'.
-
   private getClient() {
-    const mockQuery = (data: any[] = []) => ({
-      data,
-      error: null,
-      select: (columns: string = '*') => {
-        console.warn(`Placeholder: Selecting ${columns}`);
-        return mockQuery(data);
-      },
-      insert: (newData: any) => {
-        console.warn("Placeholder: Inserting", newData);
-        return mockQuery([...data, newData]);
-      },
-      update: (updateData: any) => {
-        console.warn("Placeholder: Updating", updateData);
-        return mockQuery(data.map(item => item.id === updateData.id ? { ...item, ...updateData } : item));
-      },
-      delete: () => {
-        console.warn("Placeholder: Deleting");
-        return mockQuery([]);
-      },
-      eq: (column: string, value: any) => {
-        console.warn(`Placeholder: Filtering by ${column} = ${value}`);
-        return mockQuery(data.filter(item => item[column] === value));
-      },
-      // Added .single() to handle cases where a single result is expected
-      single: () => {
-        console.warn("Placeholder: Fetching single result");
-        return Promise.resolve({ data: data[0] || null, error: null });
-      }
-    });
-
-    return {
-      from: (tableName: string) => {
-        console.warn(`Placeholder: Accessing table ${tableName}`);
-        // In a real scenario, this would interact with a database.
-        // For now, it returns a mock query builder.
-        return mockQuery();
-      }
-    };
+    console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
+    console.log('Supabase Anon Key:', import.meta.env.VITE_SUPABASE_ANON_KEY);
+    return createClient(
+      import.meta.env.VITE_SUPABASE_URL! || '',
+      import.meta.env.VITE_SUPABASE_ANON_KEY! || ''
+    );
   }
 
   async getAll(): Promise<T[]> {

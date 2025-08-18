@@ -172,10 +172,15 @@ const TourPackages = () => {
                 </div>
 
                 {/* Book Button */}
-                <button className="w-full btn-primary font-poppins font-semibold group flex items-center justify-center space-x-2">
+                <a
+                  href={`https://wa.me/919660103534?text=Hello! I'm interested in booking the ${pkg.title} tour package. Could you please provide more details?`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full btn-primary font-poppins font-semibold group flex items-center justify-center space-x-2"
+                >
                   <span>Book This Package</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </button>
+                </a>
               </div>
 
               {/* Rajasthani Pattern Overlay */}

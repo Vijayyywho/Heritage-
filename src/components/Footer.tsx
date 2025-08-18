@@ -26,7 +26,7 @@ const Footer = () => {
     { label: 'Privacy Policy', href: '#' },
     { label: 'Terms of Service', href: '#' },
     { label: 'Cancellation Policy', href: '#' },
-    { label: 'Booking Terms', href: '#' }
+    { label: 'Booking Terms', href: '#booking-system' }
   ];
 
   return (

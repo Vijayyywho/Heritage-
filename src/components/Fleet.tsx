@@ -153,29 +153,33 @@ const Fleet = () => {
                 </div>
 
                 {/* Book Button */}
-                <button
-                  className={`w-full py-4 rounded-lg font-poppins font-semibold transition-all duration-300 ${
-                    car.available
-                      ? 'btn-primary group'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
-                  disabled={!car.available}
+                <a
+                  href={`https://wa.me/919660103534?text=Hello! I'm interested in reserving the ${car.name} (${car.model}). Could you please provide more details?`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-full block ${!car.available ? 'pointer-events-none' : ''}`} // Make the anchor fill width and disable pointer events if unavailable
+                  onClick={(e) => !car.available && e.preventDefault()} // Keep preventing default if unavailable
                 >
-                  {car.available ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <Calendar className="w-5 h-5" />
-                      <span>Reserve Now</span>
-                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
-                        Save {Math.round(((parseInt(car.originalPrice.slice(1)) - parseInt(car.price.slice(1))) / parseInt(car.originalPrice.slice(1))) * 100)}%
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center space-x-2">
-                      <Shield className="w-5 h-5" />
-                      <span>Currently Unavailable</span>
-                    </div>
-                  )}
-                </button>
+                  <button
+                    className={`w-full py-4 rounded-lg font-poppins font-semibold transition-all duration-300 ${car.available ? 'btn-primary group' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                    disabled={!car.available} // Keep button disabled if unavailable
+                  >
+                    {car.available ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <Calendar className="w-5 h-5" />
+                        <span>Reserve Now</span>
+                        <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
+                          Save {Math.round(((parseInt(car.originalPrice.slice(1)) - parseInt(car.price.slice(1))) / parseInt(car.originalPrice.slice(1))) * 100)}%
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center space-x-2">
+                        <Shield className="w-5 h-5" />
+                        <span>Currently Unavailable</span>
+                      </div>
+                    )}
+                  </button>
+                </a>
               </div>
 
               {/* Rajasthani Pattern */}

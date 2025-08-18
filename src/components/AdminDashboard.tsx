@@ -19,12 +19,16 @@ import {
   Download,
   BarChart3,
   TrendingUp,
-  AlertCircle
+  AlertCircle,
+  Lock
 } from 'lucide-react';
 import { vehicleAPI, bookingAPI, availabilityAPI, Vehicle, Booking } from '../lib/supabase';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,9 +78,38 @@ const AdminDashboard = () => {
     try {
       await bookingAPI.update(bookingId, { status: status as any });
       await loadData();
+
+      // --- Placeholder for Email Notification ---
+      const updatedBooking = bookings.find(b => b.id === bookingId);
+      if (updatedBooking) {
+        await sendBookingConfirmationEmail(updatedBooking, status);
+      }
+      // ------------------------------------------
+
     } catch (error) {
       console.error('Error updating booking:', error);
     }
+  };
+
+  const sendBookingConfirmationEmail = async (booking: Booking, status: string) => {
+    console.log(`Simulating email send for booking ${booking.id}: Status changed to ${status}`);
+    console.log(`To: ${booking.customer_email}`);
+    console.log(`Subject: Your Heritage Rides Booking ${status.charAt(0).toUpperCase() + status.slice(1)}`);
+    // In a real application, you would call a backend API or a Supabase Function here.
+    // Example (pseudo-code):
+    // await fetch('/api/send-booking-email', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ bookingId: booking.id, newStatus: status, customerEmail: booking.customer_email })
+    // });
+
+    // Or if using Supabase Edge Functions directly:
+    // const { data, error } = await supabase.functions.invoke('send-booking-email', {
+    //   body: { bookingId: booking.id, newStatus: status, customerEmail: booking.customer_email }
+    // });
+    // if (error) console.error("Failed to send email:", error);
+
+    alert(`Email simulation: Booking ${booking.id} status updated to ${status}. Confirmation email sent to ${booking.customer_email}.`);
   };
 
   const handleDeleteVehicle = async (vehicleId: string) => {
@@ -87,6 +120,18 @@ const AdminDashboard = () => {
       } catch (error) {
         console.error('Error deleting vehicle:', error);
       }
+    }
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // IMPORTANT: In a real application, NEVER hardcode passwords like this.
+    // Use a secure authentication service (e.g., Supabase Auth, Auth0, Firebase Auth).
+    if (password === 'admin123') { // Replace 'admin123' with a strong, unique password
+      setIsAuthenticated(true);
+      setLoginError('');
+    } else {
+      setLoginError('Invalid password');
     }
   };
 
@@ -113,6 +158,40 @@ const AdminDashboard = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Loading admin dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm text-center transform scale-95 transition-all duration-300 ease-out animate-zoom-in">
+          <Lock className="w-16 h-16 text-primary mx-auto mb-6" />
+          <h2 className="text-2xl font-raleway font-bold text-primary mb-6">Admin Login</h2>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password" style={{textAlign:"center"}}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-lg font-poppins text-center"
+                required
+              />
+            </div>
+            {loginError && (
+              <p className="text-red-500 text-sm font-poppins">{loginError}</p>
+            )}
+            <button
+              type="submit"
+              className="btn-primary w-full py-3 text-lg font-raleway font-bold tracking-wide"
+            >
+              Login
+            </button>
+          </form>
         </div>
       </div>
     );

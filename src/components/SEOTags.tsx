@@ -17,7 +17,7 @@ interface SEOTagsProps {
 
 const SEOTags: React.FC<SEOTagsProps> = ({
   title = "Heritage Rides 🚗 Car Tours in Udaipur | Sightseeing & Day Trips",
-  description = "Explore Udaipur with Heritage Rides 🚗 Private car tours, sightseeing, and day trips with professional drivers. Book your Udaipur car rental today!",
+  description = "Explore Udaipur with Heritage Rides 🚗 Private car tours, sightseeing, and day trips with professional drivers. Book your car rental today!",
   keywords = "Udaipur car tours, car rental Udaipur, sightseeing Udaipur, Udaipur day trips, Udaipur with driver, Heritage Rides",
   ogTitle,
   ogDescription,

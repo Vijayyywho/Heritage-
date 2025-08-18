@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Clock, Users, Car, CreditCard, CheckCircle, ArrowRight, ArrowLeft, Shield, Star } from 'lucide-react';
 
-import { bookingAPI } from '../lib/supabase'
+import { bookingAPI, vehicleAPI, Vehicle } from '../lib/supabase'
 
 const BookingSystem = () => {
   const [bookingStep, setBookingStep] = useState(1);
+  const [availableVehicles, setAvailableVehicles] = useState<Vehicle[]>([]);
+  const [loadingVehicles, setLoadingVehicles] = useState(true);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState({
     serviceType: '',
     carType: '',
@@ -43,26 +48,20 @@ const BookingSystem = () => {
     }
   ];
 
-  const carTypes = [
-    { 
-      value: 'sedan', 
-      label: 'Royal Sedan', 
-      model: 'Toyota Camry Hybrid',
-      icon: '🚙',
-      price: '₹2,500/day',
-      passengers: '4 passengers',
-      features: ['Premium AC', 'GPS', 'WiFi']
-    },
-    { 
-      value: 'suv', 
-      label: 'Heritage SUV', 
-      model: 'Toyota Fortuner 4WD',
-      icon: '🚐',
-      price: '₹3,200/day',
-      passengers: '7 passengers',
-      features: ['Dual AC', '4WD', 'Spacious']
-    }
-  ];
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        setLoadingVehicles(true);
+        const vehicles = await vehicleAPI.getAll();
+        setAvailableVehicles(vehicles);
+      } catch (error) {
+        console.error("Error fetching vehicles:", error);
+      } finally {
+        setLoadingVehicles(false);
+      }
+    };
+    fetchVehicles();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -93,7 +92,7 @@ const BookingSystem = () => {
       dropoff_location: formData.dropoffLocation,
       passengers: Number(formData.passengers),
       service_type: formData.serviceType,
-      car_type: formData.carType,
+      vehicle_id: formData.carType, // Use carType as vehicle_id
       duration: formData.duration,
       status: 'pending',
       notes: ''
@@ -101,27 +100,52 @@ const BookingSystem = () => {
 
     try {
       await bookingAPI.create(bookingData as any);
+      setSuccessMessage('Booking request submitted successfully! We will contact you within 15 minutes to confirm your reservation.');
+      setShowSuccessMessage(true);
+      setShowSuccessModal(true); // Show the modal
+      // Reset form and step after successful booking
+      setFormData({
+        serviceType: '',
+        carType: '',
+        pickupDate: '',
+        pickupTime: '',
+        pickupLocation: '',
+        dropoffLocation: '',
+        passengers: '4',
+        duration: '',
+        name: '',
+        phone: '',
+        email: ''
+      });
+      setBookingStep(1);
     } catch (error: any) {
       alert('Booking failed: ' + error.message);
       return;
+    } finally {
+      // Hide the success message after 5 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+        setSuccessMessage('');
+      }, 5000);
     }
 
-    alert('Booking request submitted successfully! We will contact you within 15 minutes to confirm your reservation.');
     // Reset form
-    setFormData({
-      serviceType: '',
-      carType: '',
-      pickupDate: '',
-      pickupTime: '',
-      pickupLocation: '',
-      dropoffLocation: '',
-      passengers: '4',
-      duration: '',
-      name: '',
-      phone: '',
-      email: ''
-    });
-    setBookingStep(1);
+    // The form reset and step reset are now handled inside the try block for successful booking
+    // as they are part of the success flow for the modal and toast messages.
+    // setFormData({
+    //   serviceType: '',
+    //   carType: '',
+    //   pickupDate: '',
+    //   pickupTime: '',
+    //   pickupLocation: '',
+    //   dropoffLocation: '',
+    //   passengers: '4',
+    //   duration: '',
+    //   name: '',
+    //   phone: '',
+    //   email: ''
+    // });
+    // setBookingStep(1);
   };
 
   const stepTitles = [
@@ -131,7 +155,7 @@ const BookingSystem = () => {
   ];
 
   return (
-    <section className="py-section bg-gradient-to-br from-background to-surface">
+    <section id="booking-system" className="py-section bg-gradient-to-br from-background to-surface">
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-12 animate-slide-up">
@@ -184,6 +208,21 @@ const BookingSystem = () => {
           <div className="absolute top-0 right-0 w-40 h-40 rajasthani-pattern opacity-5"></div>
           
           <div className="p-8 md:p-12 relative z-10">
+            {showSuccessMessage && ( // Success Message
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl relative mb-8 animate-fade-in-down" role="alert">
+                <strong className="font-bold">Success!</strong>
+                <span className="block sm:inline ml-2">{successMessage}</span>
+                <span 
+                  className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer"
+                  onClick={() => setShowSuccessMessage(false)}
+                >
+                  <svg className="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                  </svg>
+                </span>
+              </div>
+            )}
             <form onSubmit={handleSubmit}>
               {/* Step 1: Service Selection */}
               {bookingStep === 1 && (
@@ -223,36 +262,40 @@ const BookingSystem = () => {
                     <label className="block text-lg font-raleway font-semibold text-primary mb-6">
                       Choose Your Vehicle
                     </label>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {carTypes.map((car) => (
-                        <div
-                          key={car.value}
-                          className={`group p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover-lift ${
-                            formData.carType === car.value
-                              ? 'border-secondary bg-secondary/5 shadow-lg'
-                              : 'border-gray-200 hover:border-gray-300 bg-surface'
-                          }`}
-                          onClick={() => setFormData({ ...formData, carType: car.value })}
-                        >
-                          <div className="flex items-start space-x-4">
-                            <div className="text-3xl">{car.icon}</div>
-                            <div className="flex-1">
-                              <h4 className="font-raleway font-bold text-primary text-lg mb-1">{car.label}</h4>
-                              <p className="text-text-secondary font-poppins text-sm mb-2">{car.model}</p>
-                              <p className="text-secondary font-poppins font-semibold mb-2">{car.price}</p>
-                              <p className="text-text-secondary font-poppins text-sm mb-3">{car.passengers}</p>
-                              <div className="flex flex-wrap gap-1">
-                                {car.features.map((feature, index) => (
-                                  <span key={index} className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-poppins">
-                                    {feature}
-                                  </span>
-                                ))}
+                    {loadingVehicles ? (
+                      <p className="text-center text-gray-500">Loading vehicles...</p>
+                    ) : (
+                      <div className="grid md:grid-cols-2 gap-6">
+                        {availableVehicles.map((car) => (
+                          <div
+                            key={car.id}
+                            className={`group p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover-lift ${
+                              formData.carType === car.id
+                                ? 'border-secondary bg-secondary/5 shadow-lg'
+                                : 'border-gray-200 hover:border-gray-300 bg-surface'
+                            }`}
+                            onClick={() => setFormData({ ...formData, carType: car.id })}
+                          >
+                            <div className="flex items-start space-x-4">
+                              <div className="text-3xl">{/* No specific icon property in Vehicle type, can add if needed */}🚗</div>
+                              <div className="flex-1">
+                                <h4 className="font-raleway font-bold text-primary text-lg mb-1">{car.name}</h4>
+                                <p className="text-text-secondary font-poppins text-sm mb-2">{car.model}</p>
+                                <p className="text-secondary font-poppins font-semibold mb-2">₹{car.price_per_day}/day</p>
+                                <p className="text-text-secondary font-poppins text-sm mb-3">{car.passengers} passengers</p>
+                                <div className="flex flex-wrap gap-1">
+                                  {car.features.map((feature, index) => (
+                                    <span key={index} className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-poppins">
+                                      {feature}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -504,6 +547,25 @@ const BookingSystem = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in">
+          <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center transform scale-95 transition-all duration-300 ease-out animate-zoom-in">
+            <CheckCircle className="w-16 h-16 text-secondary mx-auto mb-6" />
+            <h3 className="text-3xl font-raleway font-bold text-primary mb-4">Booking Confirmed!</h3>
+            <p className="text-lg text-text-secondary font-poppins mb-6">
+              Your royal journey is all set. We've received your booking and will contact you within 15 minutes to finalize everything.
+            </p>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="btn-primary py-3 px-8 text-lg"
+            >
+              Great, Thanks!
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

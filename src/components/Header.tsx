@@ -76,7 +76,7 @@ const Header = () => {
               <span className="text-sm font-poppins font-medium">+91 96601 03534</span>
             </a>
             <a
-              href="https://wa.me/919660103534"
+              href="#booking-system"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary flex items-center space-x-2 text-sm"
@@ -120,10 +120,11 @@ const Header = () => {
                   <span className="font-poppins">+91 96601 03534</span>
                 </a>
                 <a
-                  href="https://wa.me/919660103534"
+                  href="#booking-system"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary flex items-center justify-center space-x-2 w-full"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Book Now</span>
