@@ -18,7 +18,7 @@ serve(async (req) => {
   try {
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: 'heritageridesudaipur@gmail.com', // Replace with your email
+      to: 'your-email@example.com', // Replace with your email
       subject: 'New Booking Confirmation',
       html: `
         <h1>New Booking Received!</h1>
