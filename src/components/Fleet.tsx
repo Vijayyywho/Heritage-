@@ -6,33 +6,54 @@ const Fleet = () => {
   const cars = [
     {
       id: 1,
-      name: 'Premium Innova',
-      model: 'Toyota Innova Crysta',
-      image: '/inova.jpg',  // fixed path
-      passengers: 5,
-      fuel: 'Hybrid',
-      transmission: 'Automatic',
-      features: ['Premium AC', 'GPS Navigation', 'WiFi Hotspot', 'Premium Sound', 'Leather Seats', 'Phone Charger'],
-      rating: 4.9,
-      price: '₹2,500',
-      originalPrice: '₹3,000',
+      name: 'Sedan',
+      model: 'Dzire/Etios',
+      image: '/sedan.jpg',  // Assuming you have a sedan image
+      passengers: 4,
+      fuel: 'Petrol',
+      transmission: 'Manual/Automatic',
+      features: ['AC', 'Music System', 'Comfortable Seating'],
+      rating: 4.7,
+      price: '₹14/km',
+      originalPrice: '₹3,500/day', // This will be the minimum charge per day
+      ratePerKm: 14,
+      minChargesPerDay: 3000,
       available: true,
       description: 'Experience luxury and comfort in our premium sedan, perfect for city tours and airport transfers.'
     },
     {
       id: 2,
-      name: 'SUV',
-      model: 'Toyota Innova',
-      image: '/inovaa.jpg',  // fixed path
-      passengers: 7,
+      name: 'Innova/Crysta',
+      model: 'Toyota Innova/Crysta',
+      image: '/inova.jpg',  // fixed path
+      passengers: 6,
       fuel: 'Diesel',
-      transmission: 'Manual',
-      features: ['Dual AC', 'GPS Navigation', '4WD System', 'Spacious Luggage', 'Captain Seats', 'Entertainment System'],
+      transmission: 'Manual/Automatic',
+      features: ['AC', 'Music System', 'Comfortable for family trips', 'Spacious Luggage'],
       rating: 4.8,
-      price: '₹3,200',
-      originalPrice: '₹3,800',
+      price: '₹22/km',
+      originalPrice: '₹4,500/day', // Minimum charge per day
+      ratePerKm: 22,
+      minChargesPerDay: 4000,
       available: true,
       description: 'Ideal for group travels and hill station visits with superior comfort and safety features.'
+    },
+    {
+      id: 3,
+      name: 'Tempo Traveller',
+      model: 'Force Traveller',
+      image: '/tempo_traveller.jpg', // Assuming you have a tempo traveller image
+      passengers: 12,
+      fuel: 'Diesel',
+      transmission: 'Manual',
+      features: ['Comfortable Seating', 'Spacious Interior', 'Music System', 'AC', 'Luggage Space'],
+      rating: 4.9,
+      price: '₹25/km',
+      originalPrice: '₹9,000/day', // Minimum charge per day
+      ratePerKm: 25,
+      minChargesPerDay: 8500,
+      available: true,
+      description: 'Perfect for large groups and family trips, offering ample space and comfort.'
     }
   ];
 
@@ -108,7 +129,7 @@ const Fleet = () => {
                       <span className="text-3xl font-raleway font-bold text-secondary">{car.price}</span>
                       <span className="text-lg text-text-light line-through font-poppins">{car.originalPrice}</span>
                     </div>
-                    <p className="text-sm text-text-secondary font-poppins">per day</p>
+                    <p className="text-sm text-text-secondary font-poppins">starting from</p>
                   </div>
                 </div>
 
@@ -121,7 +142,7 @@ const Fleet = () => {
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="flex flex-col items-center p-3 bg-background rounded-lg">
                     <Users className="w-6 h-6 text-primary mb-2" />
-                    <span className="text-sm font-poppins font-medium text-text-primary">{car.passengers} Seats</span>
+                    <span className="text-sm font-poppins font-medium text-text-primary">{car.passengers}+1 Seats</span>
                   </div>
                   <div className="flex flex-col items-center p-3 bg-background rounded-lg">
                     <Fuel className="w-6 h-6 text-primary mb-2" />
@@ -154,7 +175,7 @@ const Fleet = () => {
 
                 {/* Book Button */}
                 <a
-                  href={`https://wa.me/919660103534?text=Hello! I'm interested in reserving the ${car.name} (${car.model}). Could you please provide more details?`}
+                  href={`https://wa.me/919660103534?text=Hello! I'm interested in booking a ${car.name}. Could you please provide more details?`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-full block ${!car.available ? 'pointer-events-none' : ''}`} // Make the anchor fill width and disable pointer events if unavailable
@@ -168,9 +189,7 @@ const Fleet = () => {
                       <div className="flex items-center justify-center space-x-2">
                         <Calendar className="w-5 h-5" />
                         <span>Reserve Now</span>
-                        <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
-                          Save {Math.round(((parseInt(car.originalPrice.slice(1)) - parseInt(car.price.slice(1))) / parseInt(car.originalPrice.slice(1))) * 100)}%
-                        </span>
+                        
                       </div>
                     ) : (
                       <div className="flex items-center justify-center space-x-2">

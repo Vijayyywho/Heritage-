@@ -6,54 +6,25 @@ const TourPackages = () => {
   const packages = [
     {
       id: 1,
-      title: 'City Palace Heritage Tour',
+      title: 'Udaipur City Tour',
       image: 'https://img.avianexperiences.com/trek/90e96e03-4abb-4ad5-984e-0b065eda1519',
-      duration: '4 Hours',
-      capacity: '4-7 People',
-      price: '₹1,800',
-      originalPrice: '₹2,200',
-      rating: 4.9,
-      highlights: ['City Palace Complex', 'Jagdish Temple', 'Bagore Ki Haveli', 'Local Markets'],
+      duration: '1 Day',
+      includes: ['City Palace', 'Lake Pichola Boat Ride', 'Jagdish Temple', 'Saheliyon Ki Bari'],
+      priceSedan: '₹3,500',
+      priceInnova: '₹5,000',
       description: 'Explore the magnificent City Palace complex and surrounding heritage sites with our knowledgeable local guide.',
       featured: true
     },
     {
       id: 2,
-      title: 'Lake Pichola & Islands',
+      title: 'Udaipur – Mount Abu',
       image: 'https://s7ap1.scene7.com/is/image/incredibleindia/lake-pichola-udaipur-rajasthan-2-attr-hero?qlt=82&ts=1742161994371',
-      duration: '6 Hours',
-      capacity: '4-7 People',
-      price: '₹2,500',
-      originalPrice: '₹3,000',
-      rating: 4.8,
-      highlights: ['Lake Pichola Cruise', 'Jag Mandir Island', 'Boat Ride', 'Sunset Views'],
+      duration: '2 Days / 1 Night',
+      includes: ['Guru Shikhar', 'Nakki Lake', 'Dilwara Temples'],
+      bestFor: 'groups',
+      priceSedan: '₹7,000',
+      priceInnova: '₹9,500',
       description: 'Experience the romantic beauty of Lake Pichola with visits to iconic islands and a magical sunset boat ride.',
-      featured: false
-    },
-    {
-      id: 3,
-      title: 'Airport Transfer Service',
-      image: 'https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6a/c3/21.jpg',
-      duration: '1 Hour',
-      capacity: '4-7 People',
-      price: '₹800',
-      originalPrice: '₹1,000',
-      rating: 5.0,
-      highlights: ['Door-to-door Service', 'Flight Tracking', 'Meet & Greet', '24/7 Availability'],
-      description: 'Comfortable and reliable airport transfers with professional drivers and luxury vehicles.',
-      featured: false
-    },
-    {
-      id: 4,
-      title: 'Monsoon Palace & Hills',
-      image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1e/6e/3b/30/the-monsoon-palace-also.jpg?w=800&h=500&s=1',
-      duration: '5 Hours',
-      capacity: '4-7 People',
-      price: '₹2,200',
-      originalPrice: '₹2,600',
-      rating: 4.7,
-      highlights: ['Monsoon Palace', 'Ahar Cenotaphs', 'Hilltop Views', 'Photography Spots'],
-      description: 'Journey to the hilltops for breathtaking panoramic views of Udaipur and visit the historic Monsoon Palace.',
       featured: false
     }
   ];
@@ -106,26 +77,20 @@ const TourPackages = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 
-                {/* Rating Badge */}
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg">
-                  <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 text-secondary fill-current" />
-                    <span className="text-sm font-poppins font-medium">{pkg.rating}</span>
-                  </div>
-                </div>
-
                 {/* Title Overlay */}
                 <div className="absolute bottom-4 left-4 text-white">
                   <h3 className="text-2xl font-raleway font-bold mb-1 text-white">{pkg.title}</h3>
                   <div className="flex items-center space-x-4 text-sm font-poppins text-white">
                     <div className="flex items-center space-x-1 text-white">
                       <Clock className="w-4 h-4 text-white" />
-                      <span className="text-white">{pkg.duration}</span>
+                      <span className="text-white">Duration: {pkg.duration}</span>
                     </div>
-                    <div className="flex items-center space-x-1 text-white">
-                      <Users className="w-4 h-4 text-white" />
-                      <span className="text-white">{pkg.capacity}</span>
-                    </div>
+                    {pkg.bestFor && (
+                      <div className="flex items-center space-x-1 text-white">
+                        <Users className="w-4 h-4 text-white" />
+                        <span className="text-white">Best for {pkg.bestFor}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -133,18 +98,11 @@ const TourPackages = () => {
               {/* Package Details */}
               <div className="p-6">
                 {/* Price Section */}
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-3xl font-raleway font-bold text-primary">{pkg.price}</span>
-                      <span className="text-lg text-text-light line-through font-poppins">{pkg.originalPrice}</span>
-                    </div>
-                    <p className="text-sm text-text-secondary font-poppins">per trip</p>
-                  </div>
-                  <div className="text-right">
-                    <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-poppins font-medium">
-                      Save {Math.round(((parseInt(pkg.originalPrice.slice(1)) - parseInt(pkg.price.slice(1))) / parseInt(pkg.originalPrice.slice(1))) * 100)}%
-                    </span>
+                <div className="mb-4">
+                  <h4 className="font-raleway font-semibold text-primary mb-2">Pricing:</h4>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-text-primary font-poppins text-lg"><span className="font-bold">Sedan:</span> {pkg.priceSedan}</p>
+                    <p className="text-text-primary font-poppins text-lg"><span className="font-bold">Innova:</span> {pkg.priceInnova}</p>
                   </div>
                 </div>
 
@@ -152,20 +110,20 @@ const TourPackages = () => {
                   {pkg.description}
                 </p>
 
-                {/* Highlights */}
+                {/* Includes */}
                 <div className="mb-6">
                   <h4 className="font-raleway font-semibold text-primary mb-3 flex items-center">
-                    <Camera className="w-4 h-4 mr-2 text-secondary" />
-                    Tour Highlights
+                    <MapPin className="w-4 h-4 mr-2 text-secondary" />
+                    Includes
                   </h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    {pkg.highlights.map((highlight, index) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {pkg.includes.map((item, index) => (
                       <div
                         key={index}
                         className="flex items-center space-x-2 text-sm font-poppins"
                       >
                         <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                        <span className="text-text-secondary">{highlight}</span>
+                        <span className="text-text-secondary">{item}</span>
                       </div>
                     ))}
                   </div>
