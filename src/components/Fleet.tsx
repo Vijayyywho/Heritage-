@@ -8,7 +8,7 @@ const Fleet = () => {
       id: 1,
       name: 'Sedan',
       model: 'Dzire/Etios',
-      image: '/sedan.jpg',  // Assuming you have a sedan image
+      image: '/sedan.png',  // Assuming you have a sedan image
       passengers: 4,
       fuel: 'Petrol',
       transmission: 'Manual/Automatic',
@@ -25,7 +25,7 @@ const Fleet = () => {
       id: 2,
       name: 'Innova/Crysta',
       model: 'Toyota Innova/Crysta',
-      image: '/inova.jpg',  // fixed path
+      image: '/inovaa.jpg',  // fixed path
       passengers: 6,
       fuel: 'Diesel',
       transmission: 'Manual/Automatic',
@@ -42,7 +42,7 @@ const Fleet = () => {
       id: 3,
       name: 'Tempo Traveller',
       model: 'Force Traveller',
-      image: '/tempo_traveller.jpg', // Assuming you have a tempo traveller image
+      image: 'tempo.png', // Assuming you have a tempo traveller image
       passengers: 12,
       fuel: 'Diesel',
       transmission: 'Manual',
@@ -80,133 +80,141 @@ const Fleet = () => {
         </div>
 
         {/* Cars Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {cars.map((car, index) => (
-            <div
-              key={car.id}
-              className="group bg-surface rounded-3xl shadow-2xl overflow-hidden hover-lift border border-gray-100 relative"
-              style={{ animationDelay: `${index * 0.2}s` }}
-            >
-              {/* Availability Badge */}
-              <div className="absolute top-6 left-6 z-10">
-                <span className={`px-4 py-2 rounded-full text-sm font-poppins font-medium shadow-lg ${
-                  car.available 
-                    ? 'bg-green-100 text-green-800 border border-green-200' 
-                    : 'bg-red-100 text-red-800 border border-red-200'
-                }`}>
-                  {car.available ? '✓ Available Now' : '✗ Currently Booked'}
-                </span>
-              </div>
+     {/* Cars Grid */}
+     <div className="grid lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
+  {cars.map((car, index) => (
+    <div
+      key={car.id}
+      className={`group bg-surface rounded-3xl shadow-2xl overflow-hidden hover-lift border border-gray-100 relative
+        ${index === 2 ? "col-span-2 mx-auto w-[70%]" : ""}`}
+      style={{ animationDelay: `${index * 0.2}s` }}
+    >
+      {/* Availability Badge */}
+      <div className="absolute top-4 left-4 z-10">
+        <span className={`px-3 py-1 rounded-full text-xs sm:text-sm font-poppins font-medium shadow-lg break-words ${
+          car.available 
+            ? 'bg-green-100 text-green-800 border border-green-200' 
+            : 'bg-red-100 text-red-800 border border-red-200'
+        }`}>
+          {car.available ? '✓ Available Now' : '✗ Currently Booked'}
+        </span>
+      </div>
 
-              {/* Rating Badge */}
-              <div className="absolute top-6 right-6 z-10 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg">
-                <div className="flex items-center space-x-1">
-                  <Star className="w-4 h-4 text-secondary fill-current" />
-                  <span className="text-sm font-poppins font-medium">{car.rating}</span>
-                </div>
-              </div>
+      {/* Rating Badge */}
+      <div className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm px-2 py-1 sm:px-3 sm:py-2 rounded-lg shadow-lg">
+        <div className="flex items-center space-x-1">
+          <Star className="w-3 h-3 sm:w-4 sm:h-4 text-secondary fill-current" />
+          <span className="text-xs sm:text-sm font-poppins font-medium">{car.rating}</span>
+        </div>
+      </div>
 
-              {/* Car Image */}
-              <div className="relative h-72 overflow-hidden">
-                <img
-                  src={car.image}
-                  alt={car.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-              </div>
+      {/* Car Image */}
+      <div className="relative h-56 sm:h-72 overflow-hidden">
+        <img
+          src={car.image}
+          alt={car.name}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      </div>
 
-              {/* Car Details */}
-              <div className="p-8">
-                {/* Header */}
-                <div className="flex justify-between items-start mb-6">
-                  <div>
-                    <h3 className="text-2xl font-raleway font-bold text-primary mb-1">{car.name}</h3>
-                    <p className="text-text-secondary font-poppins">{car.model}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-3xl font-raleway font-bold text-secondary">{car.price}</span>
-                      <span className="text-lg text-text-light line-through font-poppins">{car.originalPrice}</span>
-                    </div>
-                    <p className="text-sm text-text-secondary font-poppins">starting from</p>
-                  </div>
-                </div>
-
-                {/* Description */}
-                <p className="text-text-secondary font-poppins leading-relaxed mb-6">
-                  {car.description}
-                </p>
-
-                {/* Specifications */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="flex flex-col items-center p-3 bg-background rounded-lg">
-                    <Users className="w-6 h-6 text-primary mb-2" />
-                    <span className="text-sm font-poppins font-medium text-text-primary">{car.passengers}+1 Seats</span>
-                  </div>
-                  <div className="flex flex-col items-center p-3 bg-background rounded-lg">
-                    <Fuel className="w-6 h-6 text-primary mb-2" />
-                    <span className="text-sm font-poppins font-medium text-text-primary">{car.fuel}</span>
-                  </div>
-                  <div className="flex flex-col items-center p-3 bg-background rounded-lg">
-                    <Settings className="w-6 h-6 text-primary mb-2" />
-                    <span className="text-sm font-poppins font-medium text-text-primary">{car.transmission}</span>
-                  </div>
-                </div>
-
-                {/* Features */}
-                <div className="mb-8">
-                  <h4 className="font-raleway font-semibold text-primary mb-3 flex items-center">
-                    <Award className="w-4 h-4 mr-2 text-secondary" />
-                    Premium Features
-                  </h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    {car.features.map((feature, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center space-x-2 text-sm font-poppins"
-                      >
-                        <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                        <span className="text-text-secondary">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Book Button */}
-                <a
-                  href={`https://wa.me/919660103534?text=Hello! I'm interested in booking a ${car.name}. Could you please provide more details?`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-full block ${!car.available ? 'pointer-events-none' : ''}`} // Make the anchor fill width and disable pointer events if unavailable
-                  onClick={(e) => !car.available && e.preventDefault()} // Keep preventing default if unavailable
-                >
-                  <button
-                    className={`w-full py-4 rounded-lg font-poppins font-semibold transition-all duration-300 ${car.available ? 'btn-primary group' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-                    disabled={!car.available} // Keep button disabled if unavailable
-                  >
-                    {car.available ? (
-                      <div className="flex items-center justify-center space-x-2">
-                        <Calendar className="w-5 h-5" />
-                        <span>Reserve Now</span>
-                        
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center space-x-2">
-                        <Shield className="w-5 h-5" />
-                        <span>Currently Unavailable</span>
-                      </div>
-                    )}
-                  </button>
-                </a>
-              </div>
-
-              {/* Rajasthani Pattern */}
-              <div className="absolute bottom-0 left-0 w-32 h-32 rajasthani-pattern opacity-10"></div>
+      {/* Car Details */}
+      <div className="p-5 sm:p-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6">
+          <div>
+            <h3 className="text-xl sm:text-2xl font-raleway font-bold text-primary mb-1 break-words">
+              {car.name}
+            </h3>
+            <p className="text-sm sm:text-base text-text-secondary font-poppins break-words">{car.model}</p>
+          </div>
+          <div className="text-left sm:text-right mt-2 sm:mt-0">
+            <div className="flex flex-wrap sm:flex-nowrap items-center space-x-2">
+              <span className="text-2xl sm:text-3xl font-raleway font-bold text-secondary">{car.price}</span>
+              <span className="text-sm sm:text-lg text-text-light line-through font-poppins">{car.originalPrice}</span>
             </div>
-          ))}
+            <p className="text-xs sm:text-sm text-text-secondary font-poppins">starting from</p>
+          </div>
         </div>
 
+        {/* Description */}
+        <p className="text-sm sm:text-base text-text-secondary font-poppins leading-relaxed mb-4 sm:mb-6 break-words">
+          {car.description}
+        </p>
+
+        {/* Specifications */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
+          <div className="flex flex-col items-center p-3 bg-background rounded-lg text-center">
+            <Users className="w-5 h-5 sm:w-6 sm:h-6 text-primary mb-2" />
+            <span className="text-xs sm:text-sm font-poppins font-medium text-text-primary break-words">
+              {car.passengers}+1 Seats
+            </span>
+          </div>
+          <div className="flex flex-col items-center p-3 bg-background rounded-lg text-center">
+            <Fuel className="w-5 h-5 sm:w-6 sm:h-6 text-primary mb-2" />
+            <span className="text-xs sm:text-sm font-poppins font-medium text-text-primary break-words">
+              {car.fuel}
+            </span>
+          </div>
+          <div className="flex flex-col items-center p-3 bg-background rounded-lg text-center">
+            <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-primary mb-2" />
+            <span className="text-xs sm:text-sm font-poppins font-medium text-text-primary break-words">
+              {car.transmission}
+            </span>
+          </div>
+        </div>
+
+        {/* Features */}
+        <div className="mb-6 sm:mb-8">
+          <h4 className="font-raleway font-semibold text-primary mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
+            <Award className="w-4 h-4 mr-2 text-secondary" />
+            Premium Features
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-2">
+            {car.features.map((feature, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-2 text-xs sm:text-sm font-poppins break-words"
+              >
+                <div className="w-2 h-2 bg-secondary rounded-full"></div>
+                <span className="text-text-secondary">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Book Button */}
+        <a
+          href={`https://wa.me/919660103534?text=Hello! I'm interested in booking a ${car.name}. Could you please provide more details?`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`w-full block ${!car.available ? 'pointer-events-none' : ''}`}
+          onClick={(e) => !car.available && e.preventDefault()}
+        >
+          <button
+            className={`w-full py-3 sm:py-4 rounded-lg font-poppins font-semibold transition-all duration-300 ${
+              car.available ? 'btn-primary group' : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+            disabled={!car.available}
+          >
+            {car.available ? (
+              <div className="flex items-center justify-center space-x-2">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-sm sm:text-base">Reserve Now</span>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center space-x-2">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-sm sm:text-base">Currently Unavailable</span>
+              </div>
+            )}
+          </button>
+        </a>
+      </div>
+    </div>
+  ))}
+</div>
+  
         {/* Fleet Benefits */}
         <div className="mt-16 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8">
           <div className="grid md:grid-cols-3 gap-6 text-center">

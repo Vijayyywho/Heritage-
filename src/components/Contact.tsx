@@ -57,7 +57,7 @@ const Contact = () => {
   return (
     <section id="contact" className="py-section bg-background">
       <SEOTags
-        title="Contact Heritage Rides 📞 Car Rental & Tours in Udaipur | Get in Touch"
+        title="Heritage Rides 🚗 Car Tours in Udaipur | Sightseeing & Day Trips"
         description="Contact Heritage Rides for private car rentals, sightseeing tours, and day trips in Udaipur. Call, email, or WhatsApp us for instant bookings and inquiries."
         keywords="contact Heritage Rides, car rental Udaipur contact, Udaipur tour inquiry, book car Udaipur, Heritage Rides phone number, email Heritage Rides"
       />
