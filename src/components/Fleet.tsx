@@ -81,25 +81,26 @@ const Fleet = () => {
 
         {/* Cars Grid */}
      {/* Cars Grid */}
-     <div className="grid lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
+     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
   {cars.map((car, index) => (
     <div
       key={car.id}
       className={`group bg-surface rounded-3xl shadow-2xl overflow-hidden hover-lift border border-gray-100 relative
-        ${index === 2 ? "col-span-2 mx-auto w-[70%]" : ""}`}
+        ${index === 2 ? "lg:col-span-2 lg:mx-auto lg:w-[70%] w-full" : "w-full"}`}
       style={{ animationDelay: `${index * 0.2}s` }}
     >
       {/* Availability Badge */}
       <div className="absolute top-4 left-4 z-10">
-        <span className={`px-3 py-1 rounded-full text-xs sm:text-sm font-poppins font-medium shadow-lg break-words ${
-          car.available 
-            ? 'bg-green-100 text-green-800 border border-green-200' 
-            : 'bg-red-100 text-red-800 border border-red-200'
-        }`}>
-          {car.available ? '✓ Available Now' : '✗ Currently Booked'}
+        <span
+          className={`px-3 py-1 rounded-full text-xs sm:text-sm font-poppins font-medium shadow-lg break-words ${
+            car.available
+              ? "bg-green-100 text-green-800 border border-green-200"
+              : "bg-red-100 text-red-800 border border-red-200"
+          }`}
+        >
+          {car.available ? "✓ Available Now" : "✗ Currently Booked"}
         </span>
       </div>
-
       {/* Rating Badge */}
       <div className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm px-2 py-1 sm:px-3 sm:py-2 rounded-lg shadow-lg">
         <div className="flex items-center space-x-1">

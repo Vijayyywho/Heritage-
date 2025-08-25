@@ -7,7 +7,7 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '' 
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
